@@ -4,4 +4,4 @@
 2. Abra o  terminal na pasta do projeto
 3. Execute o comando python app.py no terminal
 
-![Exemplo de imagem](documentacao/exemplo-1.png)
+![Exemplo de imagem](documentacao/exemplo.png)
