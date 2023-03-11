@@ -1,64 +1,48 @@
-import datetime
-tarefas = []
+from datetime import datetime, timedelta
 
-while True: 
-    #Exibir menu
-    print("----- Menu ----")
-    print("1. Adicionar Lembretes")
-    print("2. Visualizar todos os lembretes")
-    print("3. Visualizar apenas os próximos lembretes")
-    print("4. Sair")
+lembretes = []
 
-    #Opção do Usuário
-
-    opcao = input("Escolha a opção desejada")
-
-    #Adicionar Tarefas
-
-    if opcao == '1':
-        nome_tarefa = input("Nome do lembrete? ")
-        data_tarefa = input("Insira a data do evento neste formato dd/mm/aaaa: ")
-
-        data = datetime.datetime.strptime(data_tarefa, "%d/%m/%Y")
-
-        # Criar um dicionário com o nome e a data do lembrete
-        item = {
-            'tarefa': nome_tarefa, 'data': data
-        }
-        # Adicionar o dicionário à lista de lembretes
-        tarefas.append(item)
-
-        print("Lembrete Adicionado!")
-
-    #Para visualizar todos os lembretes 
-    elif opcao == '2':
-        print("Lista de lembretes")
-        
-        for item in tarefas:
-            print(item["tarefa"], "-", item["data"])
-
-    #Visualizar apenas os proximos lembretes
-    elif opcao == '3':
-        agora = datetime.datetime.now()
-        data_daqui_dois_dias = agora + datetime.timedelta(days=2)
-        tarefas_recentes = []
-        for item in tarefas:
-            if item["data"] > agora and item["data"] <  data_daqui_dois_dias:
-                tarefas_recentes.append(item)
-        print("Listas dos proximos Lembretes")
-        for item in tarefas_recentes:
-             print(item["tarefa"], "-", item["data"])
-
-    #Sair do Programa
-    elif opcao =='4':
-        print(" Obrigada por usar nosso programa!")
-        break 
-    #Opção invalida 
+def adicionar_lembretes():
+    nome = input("Digite o nome do lembrete: ")
+    data_lem = input("Digite a data do lembrete (formarto: dd/mm/aaaa): ")
+    data = datetime.strptime(data_lem, "%d/%m/%Y")
+    if data.date() < datetime.today().date():
+        print("A data do lembrete deve ser a partir de hoje")
     else:
-        print(" Opção invalida. Digite um numero de 1 a 4")
-        
+        lembrete = (nome, data)
+        lembretes.append(lembrete)
+        print("Lembrete adicionado com sucesso")
+
+def exibir_todos_lembretes():
+    print("-- Todos os Lembretes --")
+    for lembrete in lembretes:
+        print(f"{lembrete[1].strftime('%d/%m/%Y')} - {lembrete[0]}")
+
+def exibir_proximos_lembretes():
+    print("Proximos Lembretes")
+    hoje = datetime.today().date()
+    data_daqui_dois_dias = hoje + timedelta(days=2)
+    for lembrete in lembretes:
+        if lembrete[1].date() >= hoje and lembrete[1].date() <= data_daqui_dois_dias: 
+            print(f"{lembrete[1].strftime('%d/%m/%Y')} - {lembrete[0]}")
+
+def excluir_lembretes():
+    opcao = input("\nDeseja excluir um lembrete específico (1) ou todos os lembretes (2)? ")
+
+    if opcao == "1":
+        for i, lembrete in enumerate(lembretes):
+            print(f"{i+1}. {lembrete[1].strftime('%d/%m/%Y')} - {lembrete[0]}")
+        indice = int(input("Digite o índice do lembrete que deseja excluir: ")) - 1
+        if indice < 0 or indice >= len(lembretes):
+            print("Índice inválido.")
+        else:
+            del lembretes[indice]
+            print("Lembrete excluído com sucesso!")
+    elif opcao == "2":
+        lembretes.clear()
+        print("Todos os lembretes foram excluídos.")
+    else:
+        print("Opção inválida.")
 
 
-
-
-
+    
