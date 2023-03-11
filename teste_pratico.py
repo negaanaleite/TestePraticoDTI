@@ -19,11 +19,11 @@ while True:
         nome_tarefa = input("Nome do lembrete? ")
         data_tarefa = input("Insira a data do evento neste formato dd/mm/aaaa: ")
 
-        data = datetime.datetime(data_tarefa, "%d/%m/%Y")
+        data = datetime.datetime.strptime(data_tarefa, "%d/%m/%Y")
 
         # Criar um dicionário com o nome e a data do lembrete
         item = {
-            'tarefa': nome_tarefa, 'data': data_tarefa
+            'tarefa': nome_tarefa, 'data': data
         }
         # Adicionar o dicionário à lista de lembretes
         tarefas.append(item)
@@ -35,18 +35,19 @@ while True:
         print("Lista de lembretes")
         
         for item in tarefas:
-            print(item["nome_tarefa"], "-", item["data_tarefa"])
+            print(item["tarefa"], "-", item["data"])
 
     #Visualizar apenas os proximos lembretes
     elif opcao == '3':
         agora = datetime.datetime.now()
-        tarefas_recentes =[]
+        data_daqui_dois_dias = agora + datetime.timedelta(days=2)
+        tarefas_recentes = []
         for item in tarefas:
-            if item [data_tarefa]> agora:
+            if item["data"] > agora and item["data"] <  data_daqui_dois_dias:
                 tarefas_recentes.append(item)
         print("Listas dos proximos Lembretes")
         for item in tarefas_recentes:
-             print(item["nome_tarefa"], "-", item["data_tarefa"])
+             print(item["tarefa"], "-", item["data"])
 
     #Sair do Programa
     elif opcao =='4':
